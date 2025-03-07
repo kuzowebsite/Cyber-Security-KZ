@@ -226,5 +226,9 @@
     "wrap-ansi-cjs": "^8.0.0",
     "yaml": "^2.7.0",
     "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.9",
+    "@types/react": "^19.0.10"
   }
 }
