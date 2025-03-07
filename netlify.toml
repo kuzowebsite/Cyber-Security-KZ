@@ -1,2 +1,4 @@
-[build]
-  command = "npm install --legacy-peer-deps && npm run build"
+[build.environment]
+NEXT_TELEMETRY_DISABLED = "1"
+NEXT_DISABLE_SWC = "1"
+CI = "false"
