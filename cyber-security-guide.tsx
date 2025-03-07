@@ -6,7 +6,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import {
   ExternalLink,
   ShieldAlert,
@@ -18,7 +17,6 @@ import {
   Zap,
   CheckCircle2,
   XCircle,
-  Info,
   Eye,
   EyeOff,
   Fingerprint,
@@ -37,6 +35,12 @@ import HackerNews from "./components/hacker-news"
 import LiveAttackMap from "./components/interactive/live-attack-map"
 import RealtimeThreatAlerts from "./components/interactive/realtime-threat-alerts"
 import { CurrencyConverter } from "./components/currency-converter"
+import NewsTicker from "./components/news-ticker"
+
+// Custom background grid pattern
+const gridBgStyle = {
+  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='%23FFFFFF' fillOpacity='0.05' d='M0 0h1v1H0V0zm2 0h1v1H2V0zm2 0h1v1H4V0zm2 0h1v1H6V0zm2 0h1v1H8V0zm2 0h1v1h-1V0zm2 0h1v1h-1V0zm2 0h1v1h-1V0zM0 2h1v1H0V2zm2 0h1v1H2V2zm2 0h1v1H4V2zm2 0h1v1H6V2zm2 0h1v1H8V2zm2 0h1v1h-1V2zm2 0h1v1h-1V2zm2 0h1v1h-1V2zM0 4h1v1H0V4zm2 0h1v1H2V4zm2 0h1v1H4V4zm2 0h1v1H6V4zm2 0h1v1H8V4zm2 0h1v1h-1V4zm2 0h1v1h-1V4zm2 0h1v1h-1V4zM0 6h1v1H0V6zm2 0h1v1H2V6zm2 0h1v1H4V6zm2 0h1v1H6V6zm2 0h1v1H8V6zm2 0h1v1h-1V6zm2 0h1v1h-1V6zm2 0h1v1h-1V6zM0 8h1v1H0V8zm2 0h1v1H2V8zm2 0h1v1H4V8zm2 0h1v1H6V8zm2 0h1v1H8V8zm2 0h1v1h-1V8zm2 0h1v1h-1V8zm2 0h1v1h-1V8zM0 10h1v1H0v-1zm2 0h1v1H2v-1zm2 0h1v1H4v-1zm2 0h1v1H6v-1zm2 0h1v1H8v-1zm2 0h1v1h-1v-1zm2 0h1v1h-1v-1zm2 0h1v1h-1v-1zM0 12h1v1H0v-1zm2 0h1v1H2v-1zm2 0h1v1H4v-1zm2 0h1v1H6v-1zm2 0h1v1H8v-1zm2 0h1v1h-1v-1zm2 0h1v1h-1v-1zm2 0h1v1h-1v-1zM0 14h1v1H0v-1zm2 0h1v1H2v-1zm2 0h1v1H4v-1zm2 0h1v1H6v-1zm2 0h1v1H8v-1zm2 0h1v1h-1v-1zm2 0h1v1h-1v-1zm2 0h1v1h-1v-1z'/%3E%3C/svg%3E")`,
+}
 
 const container = {
   hidden: { opacity: 0 },
@@ -71,44 +75,36 @@ export default function CyberSecurityGuide() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900">
-      <motion.div
-        className={`w-full py-4 z-50 transition-all duration-300 ${isHeaderFixed ? "fixed top-0 bg-slate-900/80 backdrop-blur-md shadow-md" : ""}`}
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between">
-            <motion.div className="flex items-center gap-2" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Shield className="h-5 w-5 md:h-6 md:w-6 text-blue-400" />
-              <span className="font-bold text-base md:text-lg">Кибер Хамгаалалт</span>
-            </motion.div>
+      {/* New modern news ticker design with real news feed */}
+      <div className="relative overflow-hidden bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-700 dark:to-indigo-700 rounded-xl shadow-lg mb-4">
+        <div className="absolute inset-0" style={gridBgStyle}></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-indigo-600/10 backdrop-blur-sm"></div>
 
-            <motion.div
-              className="flex items-center gap-2"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-            >
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button variant="ghost" size="icon" className="rounded-full">
-                      <Info className="h-5 w-5" />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Кибер аюулгүй байдлын гарын авлага</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            </motion.div>
+        {/* News ticker header */}
+        <div className="relative px-4 py-3 flex items-center justify-between border-b border-white/10">
+          <div className="flex items-center space-x-2">
+            <div className="h-2 w-2 rounded-full bg-red-500 animate-pulse"></div>
+            <h3 className="text-white font-bold text-sm sm:text-base">ШИНЭ МЭДЭЭ</h3>
+          </div>
+          <div className="flex items-center text-xs text-white/70">
+            <span className="hidden sm:inline-block">Хамгийн сүүлийн үеийн мэдээ</span>
+            <span className="inline-block sm:hidden">Шинэ</span>
           </div>
         </div>
-      </motion.div>
 
-      <div className="container mx-auto px-4 pt-16 pb-20">
-        <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-8">
+        {/* News content with real news feed */}
+        <NewsTicker maxItems={8} animationDuration={6000} />
+      </div>
+
+      <div className="">
+        {/* Google Custom Search */}
+        <div className=" backdrop-blur-sm py-3 sm:py-4 mb-3 sm:mb-4 rounded-xl mt-3 sm:mt-4 shadow-md">
+          <div className="">
+            <div className=""></div>
+          </div>
+        </div>
+
+        <div className="grid gap-3 sm:gap-4 grid-cols-1 mb-3 sm:mb-4">
           <div className="md:col-span-2 lg:col-span-1">
             <WeatherWidget />
           </div>
@@ -172,39 +168,39 @@ export default function CyberSecurityGuide() {
         </motion.div>
 
         {/* New Tab Navigation */}
-        <div className="flex justify-center mb-8">
-          <div className="bg-slate-900 dark:bg-slate-950 rounded-full p-1 w-[300px] flex justify-between">
+        <div className="flex justify-center mb-6">
+          <div className="bg-slate-900 dark:bg-slate-950 rounded-full p-1 w-[280px] flex justify-between">
             <button
               onClick={() => setActiveTab("world")}
-              className={`flex items-center justify-center w-1/4 h-12 rounded-full transition-all ${
+              className={`flex items-center justify-center w-1/4 h-10 rounded-full transition-all ${
                 activeTab === "world" ? "bg-slate-800 text-white" : "text-slate-400 hover:text-slate-200"
               }`}
             >
-              <Globe className="h-5 w-5" />
+              <Globe className="h-4 w-4" />
             </button>
             <button
               onClick={() => setActiveTab("mongolia")}
-              className={`flex items-center justify-center w-1/4 h-12 rounded-full transition-all ${
+              className={`flex items-center justify-center w-1/4 h-10 rounded-full transition-all ${
                 activeTab === "mongolia" ? "bg-slate-800 text-white" : "text-slate-400 hover:text-slate-200"
               }`}
             >
-              <Database className="h-5 w-5" />
+              <Database className="h-4 w-4" />
             </button>
             <button
               onClick={() => setActiveTab("protection")}
-              className={`flex items-center justify-center w-1/4 h-12 rounded-full transition-all ${
+              className={`flex items-center justify-center w-1/4 h-10 rounded-full transition-all ${
                 activeTab === "protection" ? "bg-slate-800 text-white" : "text-slate-400 hover:text-slate-200"
               }`}
             >
-              <ShieldAlert className="h-5 w-5" />
+              <ShieldAlert className="h-4 w-4" />
             </button>
             <button
               onClick={() => setActiveTab("concepts")}
-              className={`flex items-center justify-center w-1/4 h-12 rounded-full transition-all ${
+              className={`flex items-center justify-center w-1/4 h-10 rounded-full transition-all ${
                 activeTab === "concepts" ? "bg-slate-800 text-white" : "text-slate-400 hover:text-slate-200"
               }`}
             >
-              <BookOpen className="h-5 w-5" />
+              <BookOpen className="h-4 w-4" />
             </button>
           </div>
         </div>
@@ -222,7 +218,7 @@ export default function CyberSecurityGuide() {
               <motion.div variants={container} initial="hidden" animate="show" className="grid gap-6 md:grid-cols-2">
                 <motion.div variants={item} className="md:col-span-2">
                   <div className="space-y-4 p-4 md:p-6">
-                    <Card className="overflow-hidden border-0 shadow-lg bg-slate-800/80 backdrop-blur-sm">
+                    <Card className="overflow-hidden border-0 shadow-md bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-slate-900 dark:border dark:border-slate-700">
                       <CardHeader className="pb-2 space-y-2">
                         <CardTitle className="text-xl md:text-2xl flex items-center gap-2">
                           <AlertTriangle className="h-5 w-5 md:h-6 md:w-6 text-amber-500" />
@@ -232,7 +228,7 @@ export default function CyberSecurityGuide() {
                           Дэлхийн хэмжээнд тохиолдсон том хэмжээний халдлагууд, тэдгээрийн үр дагавар
                         </CardDescription>
                       </CardHeader>
-                      <CardContent>
+                      <CardContent className="p-3 sm:p-5">
                         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                           <motion.div
                             className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl p-5 shadow-md border border-slate-100 dark:border-slate-700"
@@ -465,7 +461,7 @@ export default function CyberSecurityGuide() {
             {activeTab === "mongolia" && (
               <motion.div variants={container} initial="hidden" animate="show" className="grid gap-6">
                 <motion.div variants={item}>
-                  <Card className="overflow-hidden border-0 shadow-lg bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-slate-900 dark:border dark:border-slate-700">
+                  <Card className="overflow-hidden border-0 shadow-md bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-slate-900 dark:border dark:border-slate-700">
                     <CardHeader className="pb-2">
                       <CardTitle className="text-2xl flex items-center gap-2">
                         <Database className="h-6 w-6 text-blue-500" />
@@ -475,7 +471,7 @@ export default function CyberSecurityGuide() {
                         Монгол Улсын төрийн болон хувийн байгууллагуудад чиглэсэн халдлагууд
                       </CardDescription>
                     </CardHeader>
-                    <CardContent>
+                    <CardContent className="p-3 sm:p-5">
                       <div className="grid gap-6 md:grid-cols-2">
                         <motion.div
                           className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl p-5 shadow-md border border-slate-100 dark:border-slate-700"
@@ -657,7 +653,7 @@ export default function CyberSecurityGuide() {
                         </motion.div>
                       </div>
                     </CardContent>
-                    <CardFooter className="bg-white/50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-700">
+                    <CardFooter className="bg-white/50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-700 p-3 sm:p-4">
                       <div className="w-full">
                         <h3 className="text-sm font-medium mb-2">Монголд гарсан халдлагуудын статистик</h3>
                         <div className="grid grid-cols-3 gap-4">
@@ -687,7 +683,7 @@ export default function CyberSecurityGuide() {
             {activeTab === "protection" && (
               <motion.div variants={container} initial="hidden" animate="show" className="grid gap-6">
                 <motion.div variants={item}>
-                  <Card className="overflow-hidden border-0 shadow-lg bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-slate-900 dark:border dark:border-slate-700">
+                  <Card className="overflow-hidden border-0 shadow-md bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-slate-900 dark:border dark:border-slate-700">
                     <CardHeader className="pb-4">
                       <CardTitle className="text-2xl flex items-center gap-2">
                         <ShieldAlert className="h-6 w-6 text-green-500" />
@@ -697,7 +693,7 @@ export default function CyberSecurityGuide() {
                         Байгууллага болон хувь хүмүүс өөрсдийгөө хамгаалах аргууд
                       </CardDescription>
                     </CardHeader>
-                    <CardContent>
+                    <CardContent className="p-3 sm:p-5">
                       <div className="grid gap-6 md:grid-cols-2">
                         <div className="space-y-4">
                           <motion.div
@@ -1005,14 +1001,14 @@ export default function CyberSecurityGuide() {
                             <div className="mt-3">
                               <Button variant="outline" size="sm" className="text-xs h-8 rounded-full">
                                 <ExternalLink className="h-3 w-3 mr-1" />
-                                Бүх хэрэгслүүдийг үзэх
+                                Бүх хэрэгслүүдийг үз
                               </Button>
                             </div>
                           </motion.div>
                         </div>
                       </div>
                     </CardContent>
-                    <CardFooter className="bg-white/50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-700">
+                    <CardFooter className="bg-white/50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-700 p-3 sm:p-4">
                       <div className="w-full">
                         <h3 className="text-sm font-medium mb-2">Шинэ хамгаалалтын технологиуд</h3>
                         <div className="grid grid-cols-3 gap-4">
@@ -1054,7 +1050,7 @@ export default function CyberSecurityGuide() {
             {activeTab === "concepts" && (
               <motion.div variants={container} initial="hidden" animate="show" className="grid gap-6">
                 <motion.div variants={item}>
-                  <Card className="overflow-hidden border-0 shadow-lg bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-slate-900 dark:border dark:border-slate-700">
+                  <Card className="overflow-hidden border-0 shadow-md bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-slate-900 dark:border dark:border-slate-700">
                     <CardHeader className="pb-2">
                       <CardTitle className="text-2xl flex items-center gap-2">
                         <BookOpen className="h-6 w-6 text-purple-500" />
@@ -1064,7 +1060,7 @@ export default function CyberSecurityGuide() {
                         Кибер аюулгүй байдалтай холбоотой чухал нэр томъёонууд
                       </CardDescription>
                     </CardHeader>
-                    <CardContent>
+                    <CardContent className="p-3 sm:p-5">
                       <div className="grid gap-6 md:grid-cols-2">
                         <motion.div
                           className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl p-5 shadow-md border border-slate-100 dark:border-slate-700"
@@ -1256,7 +1252,7 @@ export default function CyberSecurityGuide() {
                         </motion.div>
                       </div>
                     </CardContent>
-                    <CardFooter className="bg-white/50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-700">
+                    <CardFooter className="bg-white/50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-700 p-3 sm:p-4">
                       <div className="w-full">
                         <h3 className="text-sm font-medium mb-2">Кибер аюулгүй байдлын статистик</h3>
                         <div className="grid grid-cols-2 gap-4">
